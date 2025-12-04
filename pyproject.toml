@@ -1,0 +1,14 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pydiskwatch"
+version = "0.1.0"
+description = "Simple Python CLI to monitor and log disk space on remote VPS servers"
+authors = ["yzakius <dev@yzakius.me>"]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "python-dotenv",
+]
