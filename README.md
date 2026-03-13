@@ -16,6 +16,12 @@ pip install -r requirements.txt
 
 ## Setup
 Create a `.env` file in the project root:
+```shell
+cp contrib-env .env
+```
+
+And 
+
 ```env
 HOSTS=user@server1.com,user@server2.com,192.168.1.50
 ```
