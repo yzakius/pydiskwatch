@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import json
 import os
 import subprocess
 from datetime import datetime
@@ -29,7 +30,7 @@ def get_disk_space_from_host_list(hosts):
             text=True
         ).strip().split("\n")
         disk_space = process_output(output)
-        print(host, disk_space)
+        #print(host, disk_space)
         result.update({host: [
             {
                 "datetime": timestamp,
@@ -39,10 +40,20 @@ def get_disk_space_from_host_list(hosts):
     return result
 
 def save_data(data):
-    # TODO: salvar em um arquivo json
-    # TODO: fazer com que o json seja atualizado
-    # TODO: colocar na doc
-    print(data)
+    filename = datetime.now().strftime("%Y-%m-%d")
+    if os.path.exists("history_disc_usage.json"):
+        with open("history_disc_usage.json", "r") as f:
+            history = json.load(f)
+    else:
+        history = {}
+    for host_name, host_usage_data in data.items():
+        if host_name not in history:
+            history[host_name] = []
+        history[host_name].extend(host_usage_data)
+    with open("history_disc_usage.json", "w") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+    # TODO: Rodar e testar se acumulou, se sim:
+        # TODO: colocar na doc
 
 if __name__ == "__main__":
     result = get_disk_space_from_host_list(hosts)
