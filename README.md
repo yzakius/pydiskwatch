@@ -37,3 +37,33 @@ user@server1.com 45%
 user@server2.com 82%
 192.168.1.50 12%
 ```
+
+## Data Storage
+
+The tool automatically saves disk usage history to a **`history_disc_usage.json`** file in the project root. This file accumulates data over time, allowing you to track disk usage trends across your servers.
+
+**File structure example:**
+```json
+{
+  "server1": [
+    {
+      "datetime": "2026-06-10",
+      "usage": "49%"
+    },
+    {
+      "datetime": "2026-06-11",
+      "usage": "49%"
+    }
+  ],
+  "server2": [
+    {
+      "datetime": "2026-06-10",
+      "usage": "52%"
+    },
+    {
+      "datetime": "2026-06-11",
+      "usage": "52%"
+    }
+  ]
+}
+```
