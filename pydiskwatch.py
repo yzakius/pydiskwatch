@@ -25,19 +25,15 @@ def get_disk_space_from_host_list(hosts):
     result = {}
     timestamp = datetime.now().strftime("%Y-%m-%d")
     for host in hosts:
-        output = subprocess.check_output(
-            ["ssh", host, "df -h"],
-            text=True
-        ).strip().split("\n")
+        output = (
+            subprocess.check_output(["ssh", host, "df -h"], text=True)
+            .strip()
+            .split("\n")
+        )
         disk_space = process_output(output)
-        #print(host, disk_space)
-        result.update({host: [
-            {
-                "datetime": timestamp,
-                "usage": disk_space
-            }
-        ]})
+        result.update({host: [{"datetime": timestamp, "usage": disk_space}]})
     return result
+
 
 def save_data(data):
     filename = datetime.now().strftime("%Y-%m-%d")
@@ -51,9 +47,10 @@ def save_data(data):
             history[host_name] = []
         history[host_name].extend(host_usage_data)
     with open("history_disc_usage.json", "w") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
+        json.dump(history, f, indent=2, ensure_ascii=False)
     # TODO: Rodar e testar se acumulou, se sim:
-        # TODO: colocar na doc
+    # TODO: colocar na doc
+
 
 if __name__ == "__main__":
     result = get_disk_space_from_host_list(hosts)
