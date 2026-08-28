@@ -45,10 +45,6 @@ def save_data(data):
     else:
         history = {}
     for host_name, host_usage_data in data.items():
-        usage = int(host_usage_data[0]["usage"].replace("%", ""))
-        if usage > 84:
-            # TODO: mover para um report final
-            print(f"{host_name} -> {usage}")
         if host_name not in history:
             history[host_name] = []
         history[host_name].extend(host_usage_data)
@@ -56,6 +52,22 @@ def save_data(data):
         json.dump(history, f, indent=2, ensure_ascii=False)
 
 
+def print_summary(data):
+    """Print hosts grouped by disk usage."""
+    print("\nAcima de 80%")
+    for host_name, host_usage_data in data.items():
+        usage = int(host_usage_data[0]["usage"].replace("%", ""))
+        if usage > 80:
+            print(f"{host_name} -> {usage}%")
+
+    print("\nAcima de 50%")
+    for host_name, host_usage_data in data.items():
+        usage = int(host_usage_data[0]["usage"].replace("%", ""))
+        if 50 < usage <= 80:
+            print(f"{host_name} -> {usage}%")
+
+
 if __name__ == "__main__":
     result = get_disk_space_from_host_list(hosts)
     save_data(data=result)
+    print_summary(data=result)
