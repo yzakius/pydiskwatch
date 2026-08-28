@@ -10,6 +10,7 @@ from dotenv import load_dotenv as env
 env()
 
 hosts = [h for h in os.getenv("HOSTS", "").split(",") if h]
+needs_atention = {}
 
 
 def process_output(output: list) -> list | None:
@@ -37,19 +38,22 @@ def get_disk_space_from_host_list(hosts):
 
 def save_data(data):
     filename = datetime.now().strftime("%Y-%m-%d")
+
     if os.path.exists("history_disc_usage.json"):
         with open("history_disc_usage.json", "r") as f:
             history = json.load(f)
     else:
         history = {}
     for host_name, host_usage_data in data.items():
+        usage = int(host_usage_data[0]["usage"].replace("%", ""))
+        if usage > 84:
+            # TODO: mover para um report final
+            print(f"{host_name} -> {usage}")
         if host_name not in history:
             history[host_name] = []
         history[host_name].extend(host_usage_data)
     with open("history_disc_usage.json", "w") as f:
         json.dump(history, f, indent=2, ensure_ascii=False)
-    # TODO: Rodar e testar se acumulou, se sim:
-    # TODO: colocar na doc
 
 
 if __name__ == "__main__":
