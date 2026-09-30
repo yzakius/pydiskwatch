@@ -12,3 +12,12 @@ requires-python = ">=3.10"
 dependencies = [
     "python-dotenv",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
