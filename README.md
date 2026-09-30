@@ -67,3 +67,9 @@ The tool automatically saves disk usage history to a **`history_disc_usage.json`
   ]
 }
 ```
+
+## Tests
+```bash
+pip install -r requirements-dev.txt
+pytest
+```
