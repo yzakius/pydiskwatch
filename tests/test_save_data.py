@@ -39,7 +39,9 @@ def test_preserva_hosts_que_nao_estao_na_coleta_atual(pydiskwatch, workdir):
 
 
 def test_grava_json_legivel_e_sem_escapar_acentos(pydiskwatch, workdir):
-    pydiskwatch.save_data({"servidor-são-paulo": [{"datetime": "2026-09-30", "usage": "42%"}]})
+    pydiskwatch.save_data(
+        {"servidor-são-paulo": [{"datetime": "2026-09-30", "usage": "42%"}]}
+    )
 
     conteudo = (workdir / HISTORY).read_text()
     assert "servidor-são-paulo" in conteudo
